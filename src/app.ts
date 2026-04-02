@@ -21,7 +21,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Mahsez Server In Progressss!");
+  res.send("Mahsez Server In Progress!");
 });
 
 app.use(NotFound);
