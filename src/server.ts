@@ -1,5 +1,6 @@
 import type { Server } from "http";
 import app from "./app.js";
+import config from "./config/index.js";
 
 let server: Server;
 
@@ -18,9 +19,9 @@ const shutdown = (signal: string) => {
 
 async function startServer() {
   try {
-    server = app.listen(5000, () => {
+    server = app.listen(config.port, () => {
       console.log(
-        `Mahsez backend api listening on ports http://localhost:5000`,
+        `Mahsez backend api listening on ports http://localhost:${config.port}`,
       );
     });
 

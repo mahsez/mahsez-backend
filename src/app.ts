@@ -4,6 +4,7 @@ import express, {
   type Response,
 } from "express";
 import cors from "cors";
+import NotFound from "./app/middleware/notFound.js";
 
 const app: Application = express();
 
@@ -22,5 +23,7 @@ app.use(express.json());
 app.get("/", (req: Request, res: Response) => {
   res.send("Mahsez Server In Progressss!");
 });
+
+app.use(NotFound);
 
 export default app;
