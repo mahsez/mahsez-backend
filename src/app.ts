@@ -5,7 +5,6 @@ import express, {
 } from "express";
 import cors from "cors";
 import NotFound from "./app/middleware/notFound.js";
-import config from "./config/index.js";
 import router from "./app/routes/index.js";
 import globalErrorHandler from "./app/middleware/globalErrorHandler.js";
 import {
