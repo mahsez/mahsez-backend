@@ -1,11 +1,11 @@
 import config from "@/config/index.js";
 import type { ErrorRequestHandler } from "express";
-import handleClientError from "../errors/handleClientError.js";
 import { ZodError } from "zod";
-import handleZodError from "../errors/handleZodError.js";
-import ApiError from "../errors/ApiError.js";
-import handleValidationError from "../errors/handleValidationError.js";
 import { Prisma } from "@/generated/prisma/client.js";
+import handleZodError from "../errors/handleZodError.js";
+import handleValidationError from "../errors/handleValidationError.js";
+import handleClientError from "../errors/handleClientError.js";
+import ApiError from "../errors/ApiError.js";
 
 type IGenericErrorMessage = {
   path: string | number;
