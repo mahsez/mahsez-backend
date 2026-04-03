@@ -1,19 +1,31 @@
-// // import { Prisma } from "../../../generated/prisma/client.js";
+import prisma from "@/lib/prisma.js";
+import type { Request } from "express";
 
-// const createAdminIntoDB = async (req: Request) => {
-//   const { email, name } = req.body;
+// type CreateAdminInput = { email: string; name: string };
 
-//   if (email) {
-//     const existingUser = await Prisma.user.findUnique({ where: { email } });
-//     if (existingUser) {
-//       throw new Error("User with this email already exists");
-//     }
-//   }
+const createAdminIntoDB = async (req: Request) => {
+  // const { email, name } = (await req.json()) as CreateAdminInput;
+  const { email, name } = req.body;
 
-//   const res = await prisma.user.create({ data: { email: email, name: name } });
-//   return res;
-// };
+  // if (email) {
+  //   const existingUser = await prisma.user.findUnique({ where: { email } });
+  //   if (existingUser) {
+  //     throw new Error("User with this email already exists");
+  //   }
+  // }
 
-// export const UserService = {
-//   createAdminIntoDB,
-// };
+  const res = await prisma.user.create({ data: { email, name } });
+  return res;
+};
+
+const getAdminIntoDB = async () => {
+  const res = prisma.user.findMany();
+  // console.log(res);
+  console.log("ressss");
+  return res;
+};
+
+export const UserService = {
+  createAdminIntoDB,
+  getAdminIntoDB,
+};
