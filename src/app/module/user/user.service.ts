@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma.js";
+import { prisma } from "@/lib/prisma.js";
 import type { Request } from "express";
 
 // type CreateAdminInput = { email: string; name: string };

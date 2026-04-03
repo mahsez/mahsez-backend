@@ -1,5 +1,5 @@
+import { prisma } from "@/lib/prisma.js";
 import formatUptime from "./formatUptime.js";
-import prisma from "@/lib/prisma.js";
 
 export type DashboardData = {
   uptime: string;
