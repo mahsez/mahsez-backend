@@ -23,7 +23,7 @@ const getEnv = (key: string, defaultValue?: string): string => {
 const config = {
   env: getEnv("NODE_ENV", "development"),
   port: Number(getEnv("PORT", "5000")), // ✅ number
-  // dbUri: getEnv('DATABASE_URL'),
+  dbUrl: getEnv("DATABASE_URL"),
 
   // cloudinary: {
   //   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
