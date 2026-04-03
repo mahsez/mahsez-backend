@@ -5,6 +5,7 @@ import express, {
 } from "express";
 import cors from "cors";
 import NotFound from "./app/middleware/notFound.js";
+import config from "./config/index.js";
 
 const app: Application = express();
 
@@ -21,7 +22,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Mahsez Server In Progress!");
+  res.send(`Mahsez Server In Progress! & ${config.port}`);
 });
 
 app.use(NotFound);
