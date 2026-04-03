@@ -22,7 +22,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send(`Mahsez Server In Progress! & ${config.port}`);
+  res.send(`Mahsez Server In Progress! & ${"50000"}`);
 });
 
 app.use(NotFound);
