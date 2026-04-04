@@ -1,7 +1,7 @@
 import type { Server } from "http";
 import app from "./app.js";
 import config from "./config/index.js";
-import seedPermissions from "./types/permission.types.js";
+// import seedPermissions from "./app/seeders/permission.seeder.js";
 
 let server: Server;
 
@@ -20,7 +20,7 @@ const shutdown = (signal: string) => {
 
 async function startServer() {
   try {
-    await seedPermissions();
+    // await seedPermissions();
 
     server = app.listen(config.port, () => {
       console.log(

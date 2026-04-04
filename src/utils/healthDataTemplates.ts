@@ -8,6 +8,7 @@ export type DashboardData = {
   cpu: NodeJS.CpuUsage;
   environment: string;
   nodeVersion: string;
+  port: string;
   dbStatus: string;
 };
 
@@ -18,6 +19,7 @@ export const getDashboardData = async (): Promise<DashboardData> => {
   const memory = process.memoryUsage();
   const cpu = process.cpuUsage();
   const environment = process.env.NODE_ENV || "development";
+  const port = process.env.PORT || "6000";
   const nodeVersion = process.version;
 
   let dbStatus: string;
@@ -28,7 +30,16 @@ export const getDashboardData = async (): Promise<DashboardData> => {
     dbStatus = "Disconnected ❌";
   }
 
-  return { uptime, timestamp, memory, cpu, environment, nodeVersion, dbStatus };
+  return {
+    uptime,
+    timestamp,
+    memory,
+    cpu,
+    environment,
+    nodeVersion,
+    port,
+    dbStatus,
+  };
 };
 
 // 🔹 HTML template
@@ -59,6 +70,7 @@ export const dashboardHTML = (data: DashboardData) => `
     <div class="info">
       <div class="info-item"><span class="label">Uptime</span><span class="value">${data.uptime}</span></div>
       <div class="info-item"><span class="label">Environment</span><span class="value">${data.environment}</span></div>
+      <div class="info-item"><span class="label">Port</span><span class="value">${data.port}</span></div>
       <div class="info-item"><span class="label">Node Version</span><span class="value">${data.nodeVersion}</span></div>
       <div class="info-item"><span class="label">Database</span><span class="value">${data.dbStatus}</span></div>
       <div class="info-item"><span class="label">Memory (RSS)</span><span class="value">${(data.memory.rss / 1024 / 1024).toFixed(2)} MB</span></div>

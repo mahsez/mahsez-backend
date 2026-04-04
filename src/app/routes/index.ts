@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserRoute } from "../module/user/user.route.js";
 import { PermissionRoute } from "../module/permission/permission.route.js";
+import { UserPermissionRoute } from "../module/userPermission/userPermission.route.js";
 
 const router: Router = Router();
 
@@ -12,6 +13,10 @@ const moduleRoute = [
   {
     path: "/permission",
     route: PermissionRoute,
+  },
+  {
+    path: "/user-permission",
+    route: UserPermissionRoute,
   },
 ];
 

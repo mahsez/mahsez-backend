@@ -8,30 +8,33 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  password  String
-  role      UserRole   @default(CUSTOMER)
-  status    UserStatus @default(ACTIVE)
-  isDeleted Boolean    @default(false)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          String           @id @default(uuid())
+  email       String           @unique
+  password    String
+  role        UserRole         @default(CUSTOMER)
+  status      UserStatus       @default(ACTIVE)
+  isDeleted   Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  permissions UserPermission[]
 }
 
 model Permission {
-  id              String           @id @default(uuid())
-  name            String           @unique
-  description     String?
-  rolePermissions RolePermission[]
+  id          String           @id @default(uuid())
+  name        String           @unique
+  description String?
+  users       UserPermission[]
 }
 
-model RolePermission {
-  id           String     @id @default(uuid())
-  role         UserRole
+model UserPermission {
+  id           String @id @default(uuid())
+  userId       String
   permissionId String
-  permission   Permission @relation(fields: [permissionId], references: [id])
 
-  @@unique([role, permissionId])
+  user       User       @relation(fields: [userId], references: [id])
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([userId, permissionId])
 }
 
 enum UserRole {
