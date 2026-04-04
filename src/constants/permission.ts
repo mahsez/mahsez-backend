@@ -1,0 +1,7 @@
+export const PERMISSIONS = [
+  "CREATE_PRODUCT",
+  "DELETE_PRODUCT",
+  "UPDATE_PRODUCT",
+  "VIEW_ORDER",
+  "MANAGE_USER",
+];

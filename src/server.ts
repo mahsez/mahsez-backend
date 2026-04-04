@@ -1,6 +1,7 @@
 import type { Server } from "http";
 import app from "./app.js";
 import config from "./config/index.js";
+import seedPermissions from "./types/permission.types.js";
 
 let server: Server;
 
@@ -19,6 +20,8 @@ const shutdown = (signal: string) => {
 
 async function startServer() {
   try {
+    await seedPermissions();
+
     server = app.listen(config.port, () => {
       console.log(
         `Mahsez backend api listening on ports http://localhost:${config.port}`,

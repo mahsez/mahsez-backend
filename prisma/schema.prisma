@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -13,7 +8,71 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String
+  role      UserRole   @default(CUSTOMER)
+  status    UserStatus @default(ACTIVE)
+  isDeleted Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
+
+model Permission {
+  id              String           @id @default(uuid())
+  name            String           @unique
+  description     String?
+  rolePermissions RolePermission[]
+}
+
+model RolePermission {
+  id           String     @id @default(uuid())
+  role         UserRole
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([role, permissionId])
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  SELLER
+  MODERATOR
+  DELIVERY_AGENT
+  CUSTOMER
+}
+
+enum UserStatus {
+  BLOCKED
+  ACTIVE
+  PENDING
+  DELETED
+}
+
+// enum GenderStatus {
+//   MALE
+//   FEMALE
+// }
+
+enum PaymentStatus {
+  PAID
+  UNPAID
+}
+
+// model RolePermission {
+//   id           String     @id @default(uuid())
+//   role         UserRole
+//   permissionId String
+//   permission   Permission @relation(fields: [permissionId], references: [id])
+
+//   @@unique([role, permissionId])
+// }
+
+// enum PermissionType {
+//   MANAGE_USERS
+//   MANAGE_FLATS
+//   MANAGE_BOOKINGS
+//   MANAGE_REVIEWS
+//   MANAGE_PAYMENTS
+// }
