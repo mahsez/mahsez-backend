@@ -1,19 +1,25 @@
+import { UserRole } from "@/generated/prisma/browser.js";
+import { hashedPassword } from "@/helpers/auth/hashPassword.js";
 import { prisma } from "@/lib/prisma.js";
 import type { Request } from "express";
 
 const createAdminIntoDB = async (req: Request) => {
-  // const { email, name } = req.body;
+  const { email, name, password } = req.body;
 
-  if (req?.body?.email) {
+  if (email) {
     const existingUser = await prisma.user.findUnique({
-      where: { email: req.body.email },
+      where: { email },
     });
     if (existingUser) {
       throw new Error("User with this email already exists");
     }
   }
 
-  const res = await prisma.user.create({ data: req.body });
+  const hashPassword = await hashedPassword(req.body.password);
+
+  const res = await prisma.user.create({
+    data: { name, email, password: hashPassword, role: UserRole.ADMIN },
+  });
   return res;
 };
 

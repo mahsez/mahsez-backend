@@ -24,6 +24,16 @@ model Permission {
   name        String           @unique
   description String?
   users       UserPermission[]
+  roles       RolePermission[]
+}
+
+model RolePermission {
+  id           String     @id @default(uuid())
+  role         UserRole
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([role, permissionId])
 }
 
 model UserPermission {
@@ -35,6 +45,15 @@ model UserPermission {
   permission Permission @relation(fields: [permissionId], references: [id])
 
   @@unique([userId, permissionId])
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum UserRole {

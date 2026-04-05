@@ -19,7 +19,7 @@ export const getDashboardData = async (): Promise<DashboardData> => {
   const memory = process.memoryUsage();
   const cpu = process.cpuUsage();
   const environment = process.env.NODE_ENV || "development";
-  const port = process.env.PORT || "6000";
+  const port = process.env.PORT || "5000";
   const nodeVersion = process.version;
 
   let dbStatus: string;
