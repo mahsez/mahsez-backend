@@ -25,6 +25,12 @@ const config = {
   port: Number(getEnv("PORT", "5000")), // ✅ number
   dbUrl: getEnv("DATABASE_URL"),
 
+  jwt: {
+    jwt_secret: getEnv("JWT_SECRET"),
+    jwt_secret_expires_in: getEnv("JWT_SECRET_EXPIRES_IN"),
+    jwt_refresh_secret: getEnv("JWT_REFRESH_SECRET"),
+    jwt_refresh_secret_expires_in: getEnv("JWT_REFRESH_SECRET_EXPIRES_IN"),
+  },
   // cloudinary: {
   //   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   //   cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
