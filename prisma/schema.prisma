@@ -40,15 +40,15 @@ model SuperAdminProfile {
 }
 
 model AdminProfile {
-  id          String    @id @default(uuid())
-  userRef     String    @unique // FK → User.id
+  id          String           @id @default(uuid())
+  userRef     String           @unique // FK → User.id
   fullName    String
   phone       String?
-  accessLevel String // e.g., "Manager", "HR", "Finance"
-  department  String?
+  accessLevel AdminAccessLevel
+  department  Department
   lastLogin   DateTime?
-  user        User      @relation(fields: [userRef], references: [id])
-  updatedAt   DateTime  @updatedAt
+  user        User             @relation(fields: [userRef], references: [id])
+  updatedAt   DateTime         @updatedAt
 }
 
 model CustomerProfile {
@@ -142,6 +142,9 @@ model Product {
   updatedAt   DateTime @updatedAt
 }
 
+// ---------------------------
+// enums 
+// ---------------------------
 enum UserRole {
   SUPER_ADMIN
   ADMIN
@@ -156,6 +159,25 @@ enum UserStatus {
   ACTIVE
   PENDING
   DELETED
+}
+
+enum AdminAccessLevel {
+  SUPER
+  MANAGER
+  SUPPORT
+  FINANCE
+  HR
+}
+
+enum Department {
+  MANAGEMENT
+  FINANCE
+  OPERATIONS
+  LOGISTICS
+  TECH
+  SUPPORT
+  MARKETING
+  SELLER_MANAGEMENT
 }
 
 // enum GenderStatus {
