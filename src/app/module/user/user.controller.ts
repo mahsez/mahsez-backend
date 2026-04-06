@@ -6,6 +6,7 @@ import type { RequestHandler } from "express";
 
 type TUserController = {
   createAdmin: RequestHandler;
+  getAdmin: RequestHandler;
 };
 
 const createAdmin: RequestHandler = catchAsync(async (req, res) => {
@@ -19,6 +20,18 @@ const createAdmin: RequestHandler = catchAsync(async (req, res) => {
   });
 });
 
+const getAdmin: RequestHandler = catchAsync(async (req, res) => {
+  const result = await UserService.getAdminIntoDB();
+
+  SendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Admin retrieved successfully",
+    data: result,
+  });
+});
+
 export const UserController: TUserController = {
   createAdmin,
+  getAdmin,
 };

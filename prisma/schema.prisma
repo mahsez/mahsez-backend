@@ -77,10 +77,10 @@ enum UserStatus {
 //   FEMALE
 // }
 
-enum PaymentStatus {
-  PAID
-  UNPAID
-}
+// enum PaymentStatus {
+//   PAID
+//   UNPAID
+// }
 
 // model RolePermission {
 //   id           String     @id @default(uuid())

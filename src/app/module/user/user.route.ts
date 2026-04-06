@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { UserController } from "./user.controller.js";
+import auth from "@/app/middleware/auth.js";
 
 const router = Router();
 
@@ -11,6 +12,15 @@ router.post(
   //   return UserController.createAdmin(req, res, next);
   // },
   UserController.createAdmin,
+);
+
+router.get(
+  "/get-admin",
+  auth({
+    roles: ["ADMIN"],
+    permissions: ["user:read"],
+  }),
+  UserController.getAdmin,
 );
 
 export const UserRoute: Router = router;
