@@ -7,18 +7,104 @@ datasource db {
   provider = "postgresql"
 }
 
+//  User & user profile start //////////////////////////
 model User {
-  id          String           @id @default(uuid())
-  email       String           @unique
-  password    String
-  role        UserRole         @default(CUSTOMER)
-  status      UserStatus       @default(ACTIVE)
-  isDeleted   Boolean          @default(false)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  permissions UserPermission[]
+  id                   String                @id @default(uuid())
+  userId               String                @unique
+  email                String                @unique
+  password             String
+  role                 UserRole              @default(CUSTOMER)
+  status               UserStatus            @default(ACTIVE)
+  isDeleted            Boolean               @default(false)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  permissions          UserPermission[]
+  superAdminProfile    SuperAdminProfile?
+  adminProfile         AdminProfile?
+  sellerProfile        SellerProfile?
+  moderatorProfile     ModeratorProfile?
+  deliveryAgentProfile DeliveryAgentProfile?
+  customerProfile      CustomerProfile?
 }
 
+// ---------------------------
+// Profile models
+// ---------------------------
+model SuperAdminProfile {
+  id        String    @id @default(uuid())
+  userRef   String    @unique
+  fullName  String
+  phone     String?
+  lastLogin DateTime?
+  user      User      @relation(fields: [userRef], references: [id])
+}
+
+model AdminProfile {
+  id          String    @id @default(uuid())
+  userRef     String    @unique // FK → User.id
+  fullName    String
+  phone       String?
+  accessLevel String // e.g., "Manager", "HR", "Finance"
+  department  String?
+  lastLogin   DateTime?
+  user        User      @relation(fields: [userRef], references: [id])
+  updatedAt   DateTime  @updatedAt
+}
+
+model CustomerProfile {
+  id             String    @id @default(uuid())
+  userRef        String    @unique // FK → User.id
+  fullName       String
+  phone          String
+  addresses      String? // JSON string of multiple addresses
+  paymentMethods String? // JSON string (cards, wallets)
+  loyaltyPoints  Int       @default(0)
+  preferences    String? // JSON for preferences
+  lastLogin      DateTime?
+  user           User      @relation(fields: [userRef], references: [id])
+  createdAt      DateTime  @default(now())
+}
+
+model SellerProfile {
+  id          String   @id @default(uuid())
+  userRef     String   @unique // FK → User.id
+  shopName    String
+  address     String
+  phone       String
+  email       String?
+  website     String?
+  bankAccount String?
+  taxId       String?
+  user        User     @relation(fields: [userRef], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model ModeratorProfile {
+  id               String   @id @default(uuid())
+  userRef          String   @unique // FK → User.id
+  fullName         String
+  phone            String?
+  assignedSections String? // JSON or CSV string of sections
+  activityLog      String? // Optional log JSON
+  user             User     @relation(fields: [userRef], references: [id])
+  createdAt        DateTime @default(now())
+}
+
+// Delivery Agent Profile
+model DeliveryAgentProfile {
+  id                 String   @id @default(uuid())
+  userRef            String   @unique // FK → User.id
+  fullName           String
+  phone              String
+  vehicleType        String
+  vehiclePlate       String
+  zone               String
+  availabilityStatus Boolean  @default(true)
+  user               User     @relation(fields: [userRef], references: [id])
+  createdAt          DateTime @default(now())
+}
+
+// ///////////////////////////
 model Permission {
   id          String           @id @default(uuid())
   name        String           @unique
