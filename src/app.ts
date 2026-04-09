@@ -17,13 +17,13 @@ const app: Application = express();
 const corsOptions = {
   origin: [
     "https://mahsez.com",
-    "http://localhost:5173",
-    "http://192.168.0.103:5173",
+    "http://localhost:3000",
+    "http://192.168.0.182:3000",
   ],
   credentials: true,
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.use("/api", router);
