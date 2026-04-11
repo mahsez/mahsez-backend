@@ -63,7 +63,9 @@ const createAdminIntoDB = async (req: Request) => {
 };
 
 const getAdminIntoDB = async () => {
-  const res = prisma.user.findMany();
+  const res = prisma.user.findMany({
+    select: { id: true, email: true, userId: true, role: true, status: true },
+  });
   return res;
 };
 

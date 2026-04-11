@@ -16,23 +16,28 @@ const auth =
     permissions?: string[];
   }) =>
   async (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.headers, "req");
     try {
       const authHeader = req.headers.authorization;
 
       if (!authHeader) {
-        throw new ApiError(httpStatus.UNAUTHORIZED, "Unauthorized");
+        throw new Error("Unauthorized_._");
       }
 
-      const [scheme, token] = authHeader.split(" ");
+      // const [scheme, token] = authHeader.split(" ");
 
-      if (scheme !== "Bearer" || !token) {
-        throw new ApiError(
-          httpStatus.UNAUTHORIZED,
-          "Invalid authorization format",
-        );
-      }
+      // if (!authHeader) {
+      //   throw new ApiError(httpStatus.UNAUTHORIZED, "Unauthorized access");
+      // }
+      // if (scheme !== "Bearer" || !token) {
+      //   throw new ApiError(
+      //     httpStatus.UNAUTHORIZED,
+      //     "Invalid authorization format",
+      //   );
+      // }
 
-      const decoded = jwt.verify(token, config.jwt.jwt_secret);
+      const decoded = jwt.verify(authHeader, config.jwt.jwt_secret);
+      // const decoded = jwt.verify(token, config.jwt.jwt_secret);
 
       if (typeof decoded === "string") {
         throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid token");

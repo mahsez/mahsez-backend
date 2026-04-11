@@ -19,10 +19,11 @@ router.post(
 
 router.get(
   "/get-admin",
-  auth({
-    roles: ["ADMIN"],
-    permissions: ["user:read"],
-  }),
+  // auth({
+  //   roles: ["SUPER_ADMIN"],
+  //   // permissions: ["user:read"],
+  // }),
+  // auth({ roles: ["SUPER_ADMIN"] }),
   UserController.getAdmin,
 );
 

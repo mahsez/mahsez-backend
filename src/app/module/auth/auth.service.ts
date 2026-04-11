@@ -1,6 +1,6 @@
 import ApiError from "@/app/errors/ApiError.js";
 import config from "@/config/index.js";
-import type { User } from "@/generated/prisma/client.js";
+import { UserStatus, type User } from "@/generated/prisma/client.js";
 import { comparePassword } from "@/helpers/auth/comparePassword.js";
 import { jwtHelpers } from "@/helpers/auth/jwtHelpers.js";
 import { prisma } from "@/lib/prisma.js";
@@ -59,6 +59,41 @@ const loginUserIntoDB = async (req: Request) => {
   };
 };
 
+const createRefreshTokenForLogin = async (token: string) => {
+  let decodedData;
+
+  try {
+    decodedData = jwtHelpers.verifyToken(
+      token,
+      config.jwt.jwt_refresh_secret as Secret,
+    );
+  } catch (err) {
+    throw new Error("You are not authorized!");
+  }
+
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      id: decodedData.userId,
+      status: UserStatus.ACTIVE,
+    },
+  });
+
+  if (!userData) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
+  }
+
+  const newAccessToken = jwtHelpers.createToken(
+    { userId: userData.id, role: userData.role, email: userData.email },
+    config.jwt.jwt_secret as Secret,
+    config.jwt.jwt_secret_expires_in as SignOptions["expiresIn"],
+  );
+
+  return {
+    accessToken: newAccessToken,
+  };
+};
+
 export const AuthService = {
   loginUserIntoDB,
+  createRefreshTokenForLogin,
 };
